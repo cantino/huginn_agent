@@ -26,9 +26,16 @@ class HuginnAgent
       load_paths.each do |path|
         require path
       end
-      agent_paths.each do |path|
+
+      additional_agents.each do |agent|
+        Agent::TYPES << agent
+      end
+    end
+
+    def additional_agents
+      agent_paths.map do |path|
         require path
-        Agent::TYPES << "Agents::#{File.basename(path.to_s).camelize}"
+        "Agents::#{File.basename(path.to_s).camelize}"
       end
     end
 
